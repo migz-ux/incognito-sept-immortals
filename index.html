@@ -1,0 +1,1689 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#121412">
+  <meta name="description" content="The home garage of INCOGNITO SEPT IMMORTALS, a Car Parking Multiplayer clan.">
+  <link rel="canonical" href="https://www.incognitoseptimmortals.com/">
+  <title>INCOGNITO SEPT IMMORTALS | Clan Garage</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #121412;
+      --panel: #1b1e1b;
+      --panel-raised: #232723;
+      --line: #090909;
+      --muted: #b8b8b8;
+      --paper: #ffffff;
+      --lime: #ffffff;
+      --red: #ed3b3b;
+      --radius: 5px;
+      --rail-width: 244px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background-color: var(--ink);
+      background-image: linear-gradient(90deg, rgba(8, 10, 10, .78), rgba(8, 10, 10, .58) 52%, rgba(8, 10, 10, .78)), url("./incognito.jpeg");
+      background-position: center center;
+      background-size: cover;
+      background-attachment: fixed;
+      color: var(--paper);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+    .app-shell { min-height: 100vh; }
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 10;
+      display: flex;
+      width: var(--rail-width);
+      flex-direction: column;
+      padding: 25px 17px 18px;
+      border-right: 1px solid var(--line);
+      background: rgba(23, 25, 23, .92);
+    }
+
+    .brand-lockup { display: flex; align-items: center; gap: 11px; padding: 0 8px 28px; }
+    .brand-mark {
+      display: grid;
+      width: 39px;
+      height: 39px;
+      flex: 0 0 auto;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid #080808;
+      border-radius: 3px;
+      background: #171917;
+      box-shadow: inset 0 0 0 1px var(--red);
+    }
+    .brand-mark img { width: 100%; height: 100%; object-fit: contain; }
+    .brand-name { font-size: 11px; font-weight: 800; line-height: 1.45; letter-spacing: .04em; }
+    .brand-name span { display: block; color: var(--lime); }
+    .nav-label { padding: 0 11px 9px; color: #b0b0b0; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .primary-nav { display: grid; gap: 4px; }
+    .nav-link {
+      display: flex;
+      width: 100%;
+      min-height: 43px;
+      align-items: center;
+      gap: 12px;
+      padding: 0 11px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      background: transparent;
+      color: #d0d0d0;
+      cursor: pointer;
+      text-align: left;
+      transition: background .18s ease, color .18s ease, border-color .18s ease;
+    }
+    .nav-link:hover { background: #222622; color: var(--paper); }
+    .nav-link[aria-current="page"] { border-color: var(--red); background: #272d22; color: var(--lime); }
+    .nav-icon { width: 19px; color: currentColor; font-size: 16px; text-align: center; }
+    .nav-link .nav-count { margin-left: auto; color: #b8b8b8; font-size: 11px; }
+    .nav-badge { margin-left: auto; min-width: 18px; padding: 3px 5px; border: 1px solid var(--red); color: var(--paper); font-size: 9px; text-align: center; }
+    .sidebar-spacer { flex: 1; }
+    .garage-status { padding: 14px 11px; border: 1px solid var(--line); border-radius: var(--radius); background: #1b1e1b; }
+    .status-top { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px #c6f24a77; }
+    .garage-status p { margin: 8px 0 0; color: var(--muted); font-size: 11px; }
+    .sidebar-foot { padding: 15px 10px 0; color: #b0b0b0; font-size: 10px; }
+
+    .workspace { min-height: 100vh; margin-left: var(--rail-width); }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      height: 66px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(18, 20, 18, .88);
+      backdrop-filter: blur(12px);
+    }
+    .crumb { min-width: 0; overflow: hidden; color: var(--muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+    .crumb strong { color: var(--paper); font-weight: 600; }
+    .topbar-right { display: flex; flex: 0 0 auto; align-items: center; gap: 12px; }
+    .account-access { min-height: 34px; padding: 0 10px; font-size: 9px; white-space: nowrap; }
+    .season-tag { color: #d0d0d0; font-size: 11px; }
+    .season-tag b { margin-left: 5px; color: var(--lime); font-size: 10px; }
+    .avatar { display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid #4a5048; border-radius: 50%; color: var(--lime); font-size: 11px; font-weight: 900; }
+    .page-content { width: min(1320px, 100%); margin: 0 auto; padding: 30px 36px 48px; }
+    .page-view { display: none; animation: arrive .28s ease both; }
+    .page-view.is-active { display: block; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .page-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin: 0 0 21px; }
+    .eyebrow { margin-bottom: 7px; color: var(--lime); font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 0; font-family: Impact, "Arial Narrow", sans-serif; font-size: clamp(25px, 3vw, 35px); font-weight: 850; line-height: 1.05; }
+    .page-subtitle { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+    .text-link { padding: 5px 0; border: 0; background: none; color: var(--lime); cursor: pointer; font-size: 12px; font-weight: 700; }
+    .text-link:hover { color: #ffffff; }
+
+    .hero {
+      position: relative;
+      display: flex;
+      min-height: 275px;
+      overflow: hidden;
+      align-items: center;
+      padding: 34px 38px;
+      border: 1px solid #080808;
+      border-radius: var(--radius);
+      box-shadow: inset 0 0 0 1px var(--red);
+      background:
+        linear-gradient(105deg, rgba(25, 28, 25, .91) 0%, rgba(25, 28, 25, .79) 45%, rgba(32, 38, 27, .72) 100%);
+      isolation: isolate;
+    }
+    .hero::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background: repeating-linear-gradient(130deg, transparent 0 39px, #ffffff06 40px 41px);
+      content: "";
+    }
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      top: -86px;
+      right: 4%;
+      width: 300px;
+      height: 440px;
+      border: 1px solid #c6f24a24;
+      transform: rotate(38deg);
+      content: "";
+    }
+    .hero-copy { position: relative; z-index: 2; max-width: 590px; }
+    .hero-kicker { display: flex; align-items: center; gap: 9px; color: var(--lime); font-size: 10px; font-weight: 900; text-transform: uppercase; }
+    .hero-kicker::before { width: 20px; height: 2px; background: var(--lime); content: ""; }
+    .hero h2 { margin: 14px 0 9px; font-family: Impact, "Arial Narrow", sans-serif; font-size: clamp(28px, 4.2vw, 48px); font-weight: 950; line-height: .98; }
+    .hero h2 span { color: var(--lime); }
+    .hero-copy p { max-width: 440px; margin-bottom: 19px; color: #d0d0d0; font-size: 13px; line-height: 1.6; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    .button-primary, .button-secondary {
+      display: inline-flex;
+      min-height: 38px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 14px;
+      border: 1px solid #080808;
+      box-shadow: inset 0 0 0 1px var(--red);
+      border-radius: 3px;
+      background: var(--lime);
+      color: #161912;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      transition: transform .16s ease, background .16s ease;
+    }
+    .button-primary:hover { transform: translateY(-2px); background: #ffffff; }
+    .button-secondary { border-color: #080808; background: #191c19b8; color: var(--paper); }
+    .button-secondary:hover { transform: translateY(-2px); border-color: var(--red); color: var(--lime); }
+    .hero-graphic { position: absolute; z-index: 1; top: 50%; right: 4%; width: min(20vw, 250px); aspect-ratio: 1; transform: translateY(-50%); opacity: .96; }
+    .hero-graphic img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 22px #000b); }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 14px 0 25px; }
+    .stat-card { min-height: 91px; padding: 15px 17px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(27, 30, 27, .84); }
+    .stat-label { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 11px; }
+    .stat-icon { color: var(--lime); font-size: 15px; }
+    .stat-value { margin-top: 9px; font-size: 20px; font-weight: 850; }
+    .stat-value small { margin-left: 5px; color: var(--muted); font-size: 10px; font-weight: 600; }
+    .overview-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(255px, .8fr); gap: 14px; }
+    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: rgba(27, 30, 27, .84); }
+    .panel-header { display: flex; min-height: 53px; align-items: center; justify-content: space-between; gap: 10px; padding: 0 17px; border-bottom: 1px solid var(--line); }
+    .panel-header h3 { margin: 0; font-size: 13px; font-weight: 800; }
+    .panel-header span { color: var(--muted); font-size: 10px; }
+    .event-list { padding: 0 17px; }
+    .event-row { display: grid; grid-template-columns: 54px 1fr auto; align-items: center; gap: 13px; min-height: 74px; border-bottom: 1px solid #2c302c; }
+    .event-row:last-child { border-bottom: 0; }
+    .date-box { display: grid; width: 48px; height: 48px; place-content: center; border: 1px solid #444a40; border-radius: 3px; background: #222621; text-align: center; }
+    .date-box b { color: var(--lime); font-size: 16px; line-height: 1; }
+    .date-box span { margin-top: 4px; color: var(--muted); font-size: 9px; text-transform: uppercase; }
+    .event-info strong { display: block; margin-bottom: 4px; font-size: 12px; }
+    .event-info span { color: var(--muted); font-size: 10px; }
+    .event-time { color: #e0e0e0; font-size: 10px; white-space: nowrap; }
+    .role-list { padding: 5px 17px 12px; }
+    .role-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #2c302c; }
+    .role-row:last-child { border: 0; }
+    .role-avatar { display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid #464d41; border-radius: 50%; background: #262b23; color: var(--lime); font-size: 10px; font-weight: 900; }
+    .role-person { min-width: 0; flex: 1; }
+    .role-person strong { display: block; overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .role-person span { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; }
+    .role-pill { padding: 4px 6px; border: 1px solid #3a4037; border-radius: 2px; color: #e0e0e0; font-size: 8px; font-weight: 800; text-transform: uppercase; }
+
+    .member-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; }
+    .member-card { position: relative; min-height: 205px; overflow: hidden; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(27, 30, 27, .84); text-align: center; }
+    .member-card::after { position: absolute; right: -20px; bottom: -35px; width: 100px; height: 100px; border: 1px solid #c6f24a21; transform: rotate(45deg); content: ""; }
+    .member-role { color: var(--lime); font-size: 9px; font-weight: 900; text-transform: uppercase; }
+    .member-initial { display: grid; width: 72px; height: 72px; margin: 16px auto 11px; overflow: hidden; place-items: center; border: 1px solid #59624e; border-radius: 50%; color: var(--lime); font-size: 12px; font-weight: 900; }
+    .member-initial img { width: 100%; height: 100%; object-fit: cover; }
+    .member-card h3 { margin: 0 0 5px; font-size: 15px; }
+    .member-card p { margin: 0; color: var(--muted); font-size: 10px; }
+    .member-role-editor { display: grid; gap: 6px; margin-top: 12px; text-align: left; }
+    .member-role-editor span { color: var(--muted); font-size: 8px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .member-role-select { width: 100%; padding: 7px 8px; border: 1px solid #080808; box-shadow: inset 0 0 0 1px #343434; border-radius: 3px; background: #101110; color: var(--paper); font: inherit; font-size: 10px; }
+    .member-photo-control { position: relative; display: inline-flex; min-height: 29px; align-items: center; margin-top: 12px; padding: 0 9px; border: 1px solid #444a40; border-radius: 3px; background: #191c19; color: #d0d0d0; cursor: pointer; font-size: 9px; font-weight: 800; }
+    .member-photo-control:hover { border-color: var(--red); color: var(--paper); }
+    .member-photo-control:focus-within { outline: 2px solid var(--red); outline-offset: 2px; }
+    .member-photo-control input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+    .role-section { margin: 22px 0 10px; color: var(--muted); font-size: 10px; font-weight: 900; text-transform: uppercase; }
+    .empty-role { display: flex; min-height: 57px; align-items: center; gap: 10px; padding: 12px; border: 1px dashed #454a43; border-radius: var(--radius); color: var(--muted); font-size: 11px; }
+    .empty-role b { color: var(--lime); font-size: 14px; }
+
+    .giveaway-banner { position: relative; min-height: 255px; overflow: hidden; padding: 29px; border: 1px solid #4c513e; border-radius: var(--radius); background: linear-gradient(110deg, rgba(34, 40, 29, .88), rgba(26, 29, 25, .78) 65%); }
+    .giveaway-banner::after { position: absolute; top: -70px; right: 8%; width: 220px; height: 330px; border: 1px solid #c6f24a33; transform: rotate(39deg); content: ""; }
+    .giveaway-label { display: inline-flex; align-items: center; gap: 7px; padding: 6px 8px; border: 1px solid #68734a; color: var(--lime); font-size: 9px; font-weight: 900; text-transform: uppercase; }
+    .giveaway-banner h2 { position: relative; z-index: 1; max-width: 550px; margin: 18px 0 8px; font-size: clamp(25px, 4vw, 43px); line-height: 1; }
+    .giveaway-banner p { position: relative; z-index: 1; max-width: 420px; margin-bottom: 0; color: #d0d0d0; font-size: 12px; line-height: 1.6; }
+    .giveaway-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; margin-top: 14px; }
+    .info-tile { min-height: 105px; padding: 17px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(27, 30, 27, .84); }
+    .info-tile span { color: var(--muted); font-size: 10px; text-transform: uppercase; }
+    .info-tile strong { display: block; margin-top: 9px; font-size: 13px; }
+
+    .media-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; }
+    .montage-folder { grid-column: 1 / -1; }
+    .montage-folder > h3 { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .folder-upload-preview { display: grid; min-height: 145px; place-items: center; overflow: hidden; background: #080908; }
+    .folder-upload-preview audio { width: calc(100% - 20px); }
+    .folder-upload-download { color: var(--lime); font-size: 11px; overflow-wrap: anywhere; }
+    .media-card { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(27, 30, 27, .84); }
+    .media-art { position: relative; display: flex; aspect-ratio: 1.55; overflow: hidden; align-items: end; padding: 13px; background: linear-gradient(145deg, #39452f, #151815 68%); }
+    .logo-slot { display: grid; aspect-ratio: 1.55; overflow: hidden; place-items: center; padding: 16px; background: linear-gradient(145deg, #292929, #101010); }
+    .logo-slot img { width: 100%; height: 100%; max-width: 180px; object-fit: contain; }
+    .media-video { display: block; width: 100%; aspect-ratio: 1.55; background: #050505; object-fit: contain; }
+    .media-art::before { position: absolute; inset: 0; background: repeating-linear-gradient(130deg, transparent 0 21px, #ffffff0c 22px 23px); content: ""; }
+    .media-art::after { position: absolute; right: -7%; bottom: 22%; width: 69%; height: 19%; border: 1px solid #d6f2799c; border-radius: 70% 20% 12% 15%; background: linear-gradient(180deg, #b3d94e 0 27%, #333b2b 29% 48%, #141613 51%); box-shadow: 0 17px 25px #080908a6; transform: skewX(-18deg); content: ""; }
+    .media-art.art-red { background: linear-gradient(145deg, #51291f, #181716 70%); }
+    .media-art.art-red::after { border-color: #f18769; background: linear-gradient(180deg, #e36c4d 0 27%, #392720 29% 48%, #141312 51%); }
+    .media-art.art-steel { background: linear-gradient(145deg, #384143, #151817 70%); }
+    .media-art.art-steel::after { border-color: #d1d5c8; background: linear-gradient(180deg, #aeb7b0 0 27%, #3e4944 29% 48%, #131514 51%); }
+    .media-art.art-yellow { background: linear-gradient(145deg, #4b4727, #171816 70%); }
+    .media-art.art-yellow::after { border-color: #eed463; background: linear-gradient(180deg, #dcc34e 0 27%, #47402a 29% 48%, #151513 51%); }
+    .media-art.art-blue { background: linear-gradient(145deg, #293b43, #151817 70%); }
+    .media-art.art-blue::after { border-color: #8bd2cc; background: linear-gradient(180deg, #72bcb6 0 27%, #31423e 29% 48%, #121514 51%); }
+    .art-index { position: relative; z-index: 1; color: #f0f1e8b8; font-size: 9px; font-weight: 900; text-transform: uppercase; }
+    .media-meta { padding: 13px 14px 15px; }
+    .media-meta h3 { margin: 0 0 5px; font-size: 12px; }
+    .media-meta p { margin: 0; color: var(--muted); font-size: 10px; }
+    .media-delete { position: absolute; z-index: 3; top: 8px; right: 8px; display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid #080808; box-shadow: inset 0 0 0 1px var(--red); background: #181a18e8; color: var(--paper); cursor: pointer; font-size: 18px; line-height: 1; }
+    .media-delete:hover { background: #a52525; }
+    .upload-button { position: relative; overflow: hidden; }
+    .upload-button input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .upload-note { margin: 0 0 14px; color: var(--muted); font-size: 10px; }
+    .upload-grid { margin-bottom: 14px; }
+    .montage-slot { display: flex; min-height: 145px; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border: 1px dashed #4a5147; border-radius: var(--radius); background: #191c19; color: var(--muted); text-align: center; }
+    .montage-slot b { color: var(--lime); font-size: 22px; font-weight: 500; }
+    .montage-slot span { font-size: 10px; }
+
+    .meet-list { display: grid; gap: 10px; }
+    .meet-card { display: grid; grid-template-columns: 74px minmax(0, 1fr) auto; align-items: center; gap: 16px; min-height: 105px; padding: 15px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(27, 30, 27, .84); }
+    .stat-card, .panel, .member-card, .giveaway-banner, .info-tile, .media-card, .meet-card, .garage-status { border-color: #080808; box-shadow: inset 0 0 0 1px var(--red); }
+    .meet-date { display: grid; min-height: 67px; place-content: center; border-right: 1px solid var(--line); text-align: center; }
+    .meet-date b { color: var(--lime); font-size: 24px; line-height: 1; }
+    .meet-date span { margin-top: 6px; color: var(--muted); font-size: 9px; font-weight: 800; text-transform: uppercase; }
+    .meet-details h3 { margin: 0 0 6px; font-size: 14px; }
+    .meet-details p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .meet-time { color: #e0e0e0; font-size: 11px; text-align: right; white-space: nowrap; }
+    .meet-time span { display: block; margin-top: 5px; color: var(--muted); font-size: 9px; }
+    .schedule-note { margin: 15px 0 0; color: var(--muted); font-size: 10px; }
+    .toast { position: fixed; right: 20px; bottom: 20px; z-index: 20; max-width: min(360px, calc(100vw - 40px)); padding: 11px 14px; border: 1px solid #71834a; border-radius: 3px; background: #242b1f; color: var(--paper); font-size: 11px; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .2s ease, transform .2s ease; }
+    .toast.is-visible { opacity: 1; transform: translateY(0); }
+    .apply-modal { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 20px; background: #000b; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+    .apply-modal.is-open { opacity: 1; pointer-events: auto; }
+    .apply-panel { width: min(520px, 100%); max-height: min(700px, calc(100vh - 40px)); overflow: auto; padding: 24px; border: 1px solid #080808; box-shadow: inset 0 0 0 1px var(--red), 0 18px 50px #000b; border-radius: var(--radius); background: #1b1e1b; }
+    .apply-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+    .apply-header h2 { margin: 0; font-family: Impact, "Arial Narrow", sans-serif; font-size: 28px; }
+    .apply-header p { margin: 7px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .close-button { display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid #080808; box-shadow: inset 0 0 0 1px var(--red); background: #191c19; color: var(--paper); cursor: pointer; font-size: 18px; line-height: 1; }
+    .apply-form { display: grid; gap: 13px; }
+    .apply-field { display: grid; gap: 6px; }
+    .apply-field label { color: #d0d0d0; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .apply-field input, .apply-field select, .apply-field textarea { width: 100%; padding: 10px 11px; border: 1px solid #080808; box-shadow: inset 0 0 0 1px #343434; border-radius: 3px; background: #101110; color: var(--paper); font: inherit; font-size: 12px; }
+    .apply-field textarea { min-height: 82px; resize: vertical; }
+    .apply-field input:focus, .apply-field select:focus, .apply-field textarea:focus { outline: 2px solid var(--red); outline-offset: 1px; }
+    .apply-note { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .status-result { padding: 14px; border: 1px solid #080808; box-shadow: inset 0 0 0 1px var(--red); background: #101110; color: #d0d0d0; font-size: 11px; line-height: 1.6; }
+    .status-result strong { display: block; margin-bottom: 5px; color: var(--paper); font-size: 12px; }
+    .inbox-list { display: grid; gap: 11px; }
+    .inbox-empty { padding: 28px 20px; border: 1px dashed #4a4a4a; color: var(--muted); text-align: center; }
+    .application-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 15px; padding: 17px; border: 1px solid #080808; box-shadow: inset 0 0 0 1px var(--red); border-radius: var(--radius); background: rgba(27, 30, 27, .88); }
+    .application-card.is-reviewed { opacity: .62; }
+    .application-card.is-accepted { border-color: #71834a; box-shadow: inset 0 0 0 1px #71834a, 0 0 0 1px rgba(113, 131, 74, .2); background: rgba(29, 35, 24, .9); }
+    .application-card h3 { margin: 0 0 6px; font-size: 14px; }
+    .application-meta { display: flex; flex-wrap: wrap; gap: 8px 14px; color: var(--muted); font-size: 10px; }
+    .application-message { margin: 12px 0 0; color: #d0d0d0; font-size: 11px; line-height: 1.5; }
+    .application-status { display: inline-flex; align-items: center; margin-top: 12px; padding: 5px 8px; border: 1px solid #080808; box-shadow: inset 0 0 0 1px var(--red); background: rgba(16, 17, 16, .8); color: #d0d0d0; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+    .application-status.is-accepted { border-color: #71834a; box-shadow: inset 0 0 0 1px #71834a; background: rgba(31, 42, 22, .9); color: var(--lime); }
+    .application-actions { display: grid; gap: 8px; align-content: start; }
+    .reply-form { display: grid; gap: 7px; margin-top: 14px; }
+    .reply-form label { color: #d0d0d0; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+    .reply-form textarea { width: 100%; min-height: 58px; padding: 9px 10px; border: 1px solid #080808; box-shadow: inset 0 0 0 1px #343434; border-radius: 3px; background: #101110; color: var(--paper); font: inherit; font-size: 11px; resize: vertical; }
+    .reply-form textarea:focus { outline: 2px solid var(--red); outline-offset: 1px; }
+    .reply-saved { margin: 12px 0 0; padding: 9px 10px; border-left: 2px solid var(--red); background: #101110; color: #d0d0d0; font-size: 10px; line-height: 1.5; }
+    .reply-saved strong { display: block; margin-bottom: 4px; color: var(--paper); font-size: 9px; text-transform: uppercase; }
+    .review-button { align-self: start; padding: 8px 10px; border: 1px solid #080808; box-shadow: inset 0 0 0 1px var(--red); background: #191c19; color: var(--paper); cursor: pointer; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+    .account-panel { max-width: 620px; padding: 22px; }
+    .account-tabs { display: flex; gap: 5px; margin-bottom: 18px; border-bottom: 1px solid #393d39; }
+    .account-tab { min-height: 35px; padding: 0 12px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--muted); cursor: pointer; font-size: 11px; font-weight: 800; }
+    .account-tab[aria-pressed="true"] { border-bottom-color: var(--red); color: var(--paper); }
+    .account-notice { margin: 15px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+    .account-profile { display: grid; gap: 12px; }
+    .account-profile p { margin: 0; color: var(--muted); font-size: 11px; }
+    .account-profile strong { color: var(--paper); }
+    [hidden] { display: none !important; }
+
+    @media (max-width: 1050px) {
+      :root { --rail-width: 210px; }
+      .topbar { padding: 0 25px; }
+      .page-content { padding: 26px 25px 40px; }
+      .hero-graphic { right: 2%; width: min(27%, 220px); opacity: .76; }
+      .member-grid, .media-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 760px) {
+      :root { --rail-width: 0px; }
+      .sidebar { position: sticky; inset: 0 0 auto; width: 100%; height: auto; padding: 10px 13px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .brand-lockup { padding: 0 4px 10px; }
+      .brand-mark { width: 32px; height: 32px; font-size: 11px; }
+      .brand-name { font-size: 10px; }
+      .nav-label, .sidebar-spacer, .garage-status, .sidebar-foot { display: none; }
+      .primary-nav { display: flex; gap: 3px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+      .primary-nav::-webkit-scrollbar { display: none; }
+      .nav-link { width: auto; min-width: max-content; min-height: 38px; gap: 7px; padding: 0 9px; font-size: 11px; }
+      .nav-icon { width: auto; font-size: 13px; }
+      .nav-link .nav-count { display: none; }
+      .workspace { margin-left: 0; }
+      .topbar { position: relative; height: 49px; padding: 0 16px; }
+      .topbar-right { gap: 8px; }
+      .season-tag { font-size: 10px; }
+      .avatar { width: 27px; height: 27px; }
+      .page-content { padding: 23px 15px 34px; }
+      .page-heading { align-items: start; }
+      .hero { min-height: 295px; padding: 24px 21px; align-items: start; }
+      .hero-copy { max-width: 100%; }
+      .hero-copy p { max-width: 330px; }
+      .hero-graphic { top: auto; right: 4px; bottom: 4px; width: min(42%, 145px); transform: none; opacity: .35; }
+      .stat-grid { gap: 7px; }
+      .stat-card { min-height: 83px; padding: 12px 10px; }
+      .stat-label { font-size: 9px; }
+      .stat-value { font-size: 17px; }
+      .stat-value small { display: block; margin: 3px 0 0; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .member-grid, .media-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+      .member-card { min-height: 165px; padding: 14px; }
+      .giveaway-grid { gap: 9px; }
+      .meet-card { grid-template-columns: 58px minmax(0, 1fr); gap: 11px; padding: 12px; }
+      .meet-date { min-height: 61px; }
+      .meet-time { grid-column: 2; margin-top: -3px; text-align: left; }
+      .meet-time span { display: inline; margin: 0 0 0 5px; }
+    }
+    @media (max-width: 420px) {
+      .season-tag, .avatar { display: none; }
+      .nav-link { padding: 0 8px; }
+      .nav-icon { display: none; }
+      .hero h2 { font-size: 29px; }
+      .hero { min-height: 300px; }
+      .hero-graphic { width: min(42%, 130px); opacity: .28; }
+      .member-grid, .media-grid { grid-template-columns: 1fr; }
+      .member-card { min-height: 155px; }
+      .media-art { aspect-ratio: 1.9; }
+      .giveaway-banner { padding: 21px; }
+      .giveaway-grid { grid-template-columns: 1fr; }
+      .page-heading .text-link { max-width: 88px; text-align: right; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <section id="media-gallery">
+    <h2>Clan Media Gallery</h2>
+
+    <div id="gallery"></div>
+</section>
+  <section id="media-upload">
+    <h2>Clan Media Upload</h2>
+
+    <input type="file" id="fileInput">
+
+    <p id="message"></p>
+</section>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true"><img src="./ChatGPT%20Image%20Sep%2026,%202026,%2009_07_27%20PM.png" alt=""></div>
+        <div class="brand-name">INCOGNITO <span>SEPT IMMORTALS</span></div>
+      </div>
+      <div class="nav-label">Clan garage</div>
+      <nav class="primary-nav" aria-label="Clan sections">
+        <button class="nav-link" type="button" data-view="overview" aria-current="page"><span class="nav-icon" aria-hidden="true">⌂</span>Overview</button>
+        <button class="nav-link" type="button" data-view="members"><span class="nav-icon" aria-hidden="true">♙</span>Members<span class="nav-count">15</span></button>
+        <button class="nav-link" type="button" data-view="giveaways"><span class="nav-icon" aria-hidden="true">◇</span>Account Giveaways</button>
+        <button class="nav-link" type="button" data-view="montages"><span class="nav-icon" aria-hidden="true">▶</span>Montages</button>
+        <button class="nav-link" type="button" data-view="gallery"><span class="nav-icon" aria-hidden="true">▦</span>Gallery</button>
+        <button class="nav-link" type="button" data-view="meets"><span class="nav-icon" aria-hidden="true">◷</span>Car Meets</button>
+        <button class="nav-link" type="button" data-view="check-status"><span class="nav-icon" aria-hidden="true">⌕</span>Check Application</button>
+        <button class="nav-link" type="button" data-view="applications"><span class="nav-icon" aria-hidden="true">✉</span>Applications<span class="nav-badge" id="application-count">0</span></button>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="garage-status">
+        <div class="status-top"><span class="status-dot"></span>GARAGE STATUS <span style="margin-left:auto;color:var(--lime)">OPEN</span></div>
+        <p>Car Parking Multiplayer · Sept season</p>
+      </div>
+      <div class="sidebar-foot">INCOGNITO SEPT IMMORTALS</div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div class="crumb">CLAN GARAGE <span aria-hidden="true">/</span> <strong id="crumb-current">Overview</strong></div>
+        <div class="topbar-right"><div class="season-tag">SEASON <b>09 / 26</b></div><div class="avatar" aria-label="Clan initials">IS</div><button class="button-secondary account-access" id="account-access" type="button">LOGIN / SIGN UP</button></div>
+      </header>
+
+      <main class="page-content">
+        <section class="page-view" id="view-overview" aria-labelledby="overview-title">
+          <div class="page-heading">
+              <div><div class="eyebrow">SEPT IMMORTALS · CLAN CREW</div><h1 id="overview-title">Clan overview</h1><p class="page-subtitle">The home garage for the crew behind the wheel.</p></div>
+            <button class="text-link" type="button" data-go="meets">VIEW MEET SCHEDULE ↗</button>
+          </div>
+          <section class="hero" aria-label="Clan introduction">
+            <div class="hero-copy">
+              <div class="hero-kicker">Car Parking Multiplayer clan</div>
+              <h2>INCOGNITO<br><span>SEPT IMMORTALS</span></h2>
+              <p>One crew. Clean builds. Late-night lobbies. Pull up, park up, and make the meet count.</p>
+              <div class="hero-actions"><button class="button-primary" type="button" data-go="members">MEET THE CREW <span aria-hidden="true">→</span></button><button class="button-secondary" type="button" data-go="gallery">OPEN THE GALLERY</button><button class="button-secondary" type="button" data-open-apply>APPLY NOW</button><button class="button-secondary" type="button" data-go="check-status">CHECK APPLICATION</button></div>
+            </div>
+            <div class="hero-graphic"><img src="./ChatGPT%20Image%20Sep%2026,%202026,%2009_07_27%20PM.png" alt="INCOGNITO SEPT IMMORTALS clan emblem"></div>
+          </section>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">CREW ROLES <span class="stat-icon" aria-hidden="true">♙</span></div><div class="stat-value">05<small>leadership slots</small></div></div>
+            <div class="stat-card"><div class="stat-label">NEXT MEET <span class="stat-icon" aria-hidden="true">◷</span></div><div class="stat-value">SEP 27<small>20:00 UTC</small></div></div>
+            <div class="stat-card"><div class="stat-label">GIVEAWAY BOARD <span class="stat-icon" aria-hidden="true">◇</span></div><div class="stat-value">TBA<small>announcement pending</small></div></div>
+          </div>
+          <div class="overview-grid">
+            <section class="panel" aria-labelledby="upcoming-title">
+              <div class="panel-header"><h3 id="upcoming-title">Next on the calendar</h3><button class="text-link" type="button" data-go="meets">ALL MEETS ↗</button></div>
+              <div class="event-list">
+                <div class="event-row"><div class="date-box"><b>27</b><span>Sep</span></div><div class="event-info"><strong>Sunday Night Cruise</strong><span>Open lobby · meet point announced in clan chat</span></div><div class="event-time">20:00 UTC</div></div>
+                <div class="event-row"><div class="date-box"><b>30</b><span>Sep</span></div><div class="event-info"><strong>Build &amp; Show</strong><span>Bring your latest garage build</span></div><div class="event-time">21:00 UTC</div></div>
+                <div class="event-row"><div class="date-box"><b>03</b><span>Oct</span></div><div class="event-info"><strong>Immortals Night Meet</strong><span>Full crew session · details in clan chat</span></div><div class="event-time">20:30 UTC</div></div>
+              </div>
+            </section>
+            <section class="panel" aria-labelledby="leadership-title">
+              <div class="panel-header"><h3 id="leadership-title">Leadership</h3><span>Live roles</span></div>
+              <div class="role-list" id="leadership-role-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page-view" id="view-members" aria-labelledby="members-title">
+          <div class="page-heading"><div><div class="eyebrow">THE PEOPLE BEHIND THE BUILDS</div><h1 id="members-title">Clan members</h1><p class="page-subtitle">Clan leadership and member roster. Unconfirmed names are marked as not provided.</p><p class="upload-note">Member photos are temporary previews in this browser.</p></div></div>
+          <div class="role-section">Owner</div>
+          <div class="member-grid" id="owner-member-grid"></div>
+          <div class="role-section">Admins</div>
+          <div class="member-grid" id="admin-member-grid"></div>
+          <div class="role-section">Members</div>
+          <div class="member-grid" id="signed-up-member-grid"></div>
+        </section>
+
+        <section class="page-view" id="view-giveaways" aria-labelledby="giveaways-title">
+          <div class="page-heading"><div><div class="eyebrow">GARAGE DROPS</div><h1 id="giveaways-title">Account giveaways</h1><p class="page-subtitle">Giveaway announcements and account drops from the clan.</p></div></div>
+          <section class="giveaway-banner"><div class="giveaway-label"><span aria-hidden="true">◇</span> NEXT DROP · TO BE ANNOUNCED</div><h2>ACCOUNT<br>GIVEAWAYS</h2><p>The next account giveaway will be posted here when the details are confirmed. Check back for the announcement.</p></section>
+          <div class="giveaway-grid"><div class="info-tile"><span>Current status</span><strong>No active giveaway</strong></div><div class="info-tile"><span>Winner updates</span><strong>Posted here after each draw</strong></div></div>
+          <section class="panel" aria-labelledby="giveaway-account-title" style="margin-top:18px; max-width:720px;">
+            <div class="panel-header"><h3 id="giveaway-account-title">Giveaway account</h3><span>Admins</span></div>
+            <form class="apply-form" id="giveaway-account-form">
+              <div class="apply-field"><label for="giveaway-code">Claim code</label><div style="display:flex; gap:8px; align-items:center;"><input id="giveaway-code" name="giveawayCode" type="text" autocomplete="off" placeholder="Example: IS-2026-01" style="flex:1;"><button class="button-secondary" type="button" id="generate-giveaway-code" style="min-width:150px;">GENERATE KEY</button><button class="button-secondary" type="button" id="copy-giveaway-code" style="min-width:110px;">COPY KEY</button></div></div>
+              <button class="button-primary" type="submit">SAVE CLAIM CODE</button>
+            </form>
+            <p class="account-notice" id="giveaway-account-message" aria-live="polite">Only admins can store the giveaway claim code in this browser.</p>
+          </section>
+        </section>
+
+        <section class="page-view" id="view-montages" aria-labelledby="montages-title">
+          <div class="page-heading"><div><div class="eyebrow">CREW ON CAMERA</div><h1 id="montages-title">Montages</h1><p class="page-subtitle">Runs, roll-ins, and garage highlights.</p></div><div style="display:flex; flex-wrap:wrap; gap:8px;"><label class="button-secondary upload-button">UPLOAD MONTAGE<input id="montage-upload" type="file" accept="video/*,audio/*" multiple></label><label class="button-secondary upload-button" id="montage-folder-upload-button">UPLOAD FOLDER<input id="montage-folder-upload" type="file" webkitdirectory directory multiple></label></div></div>
+          <p class="upload-note">The upload controls are shown to admins in this page. Shared files are public, and anonymous uploads are enabled, so anyone can bypass the page controls to upload an allowed file up to 50 MB. Public uploads can consume your Supabase storage quota.</p>
+          <div class="media-grid upload-grid" id="montage-uploads"></div>
+          <div class="media-grid">
+            <article class="media-card" data-media-id="montage-night-drive"><div class="media-art"><span class="art-index">REEL 01 · NIGHT DRIVE</span></div><div class="media-meta"><h3>Night Drive</h3><p>Montage link coming soon</p></div></article>
+            <article class="media-card" data-media-id="montage-crew-meet"><div class="media-art art-red"><span class="art-index">REEL 02 · CREW MEET</span></div><div class="media-meta"><h3>Immortals Meet</h3><p>Montage link coming soon</p></div></article>
+            <article class="media-card" data-media-id="montage-build-showcase"><div class="media-art art-steel"><span class="art-index">REEL 03 · BUILDS</span></div><div class="media-meta"><h3>Build Showcase</h3><p>Montage link coming soon</p></div></article>
+            <article class="media-card" data-media-id="montage-music"><video class="media-video" controls preload="metadata" playsinline aria-label="Incognito montage music"><source src="./incognito%20montage%20music.mp4" type="video/mp4">Your browser does not support MP4 video.</video><div class="media-meta"><h3>Montage music</h3><p>INCOGNITO · SEPT IMMORTALS</p></div></article>
+          </div>
+        </section>
+
+        <section class="page-view" id="view-gallery" aria-labelledby="gallery-title">
+          <div class="page-heading"><div><div class="eyebrow">FROM THE LOBBY</div><h1 id="gallery-title">Crew gallery</h1><p class="page-subtitle">Meet nights, builds, and moments from the garage.</p></div><label class="button-secondary upload-button">UPLOAD MEDIA<input id="gallery-upload" type="file" accept="image/*,video/*" multiple></label></div>
+          <p class="upload-note">Gallery media is stored in the shared public Supabase bucket. Anonymous uploads are enabled and limited to approved file types up to 50 MB; they can consume your Supabase storage quota.</p>
+          <div class="media-grid upload-grid" id="gallery-uploads"></div>
+          <div class="media-grid">
+            <article class="media-card" data-media-id="gallery-night-run"><div class="media-art"><span class="art-index">01 · NIGHT RUN</span></div><div class="media-meta"><h3>Night run</h3><p>INCOGNITO · SEPT IMMORTALS</p></div></article>
+            <article class="media-card" data-media-id="gallery-show-shine"><div class="media-art art-red"><span class="art-index">02 · SHOW &amp; SHINE</span></div><div class="media-meta"><h3>Show &amp; shine</h3><p>INCOGNITO · SEPT IMMORTALS</p></div></article>
+            <article class="media-card" data-media-id="gallery-garage-builds"><div class="media-art art-steel"><span class="art-index">03 · GARAGE BUILDS</span></div><div class="media-meta"><h3>Garage builds</h3><p>INCOGNITO · SEPT IMMORTALS</p></div></article>
+            <article class="media-card" data-media-id="gallery-late-lobby"><div class="media-art art-yellow"><span class="art-index">04 · LATE LOBBY</span></div><div class="media-meta"><h3>Late lobby</h3><p>INCOGNITO · SEPT IMMORTALS</p></div></article>
+            <article class="media-card" data-media-id="gallery-cruise-night"><div class="media-art art-blue"><span class="art-index">05 · CRUISE NIGHT</span></div><div class="media-meta"><h3>Cruise night</h3><p>INCOGNITO · SEPT IMMORTALS</p></div></article>
+            <article class="media-card" data-media-id="gallery-next-crew-moment"><div class="montage-slot"><b>+</b><span>Next crew moment</span></div><div class="media-meta"><h3>More from the garage</h3><p>New photos can be added here</p></div></article>
+            <article class="media-card" data-media-id="gallery-clan-logo"><div class="logo-slot"><img src="./ChatGPT%20Image%20Sep%2026,%202026,%2009_07_27%20PM.png" alt="INCOGNITO SEPT IMMORTALS clan logo"></div><div class="media-meta"><h3>Clan logo</h3><p>INCOGNITO SEPT IMMORTALS</p></div></article>
+            <article class="media-card" data-media-id="gallery-montage-video"><video class="media-video" controls preload="metadata" playsinline aria-label="Incognito montage music"><source src="./incognito%20montage%20music.mp4" type="video/mp4">Your browser does not support MP4 video.</video><div class="media-meta"><h3>Incognito Montage Music</h3><p>INCOGNITO · SEPT IMMORTALS</p></div></article>
+          </div>
+        </section>
+
+        <section class="page-view" id="view-meets" aria-labelledby="meets-title">
+          <div class="page-heading"><div><div class="eyebrow">MARK YOUR CALENDAR</div><h1 id="meets-title">Car meets</h1><p class="page-subtitle">Upcoming INCOGNITO SEPT IMMORTALS sessions.</p></div><span class="season-tag">ALL TIMES <b>UTC</b></span></div>
+          <div class="meet-list">
+            <article class="meet-card"><div class="meet-date"><b>27</b><span>Sun · Sep</span></div><div class="meet-details"><h3>Sunday Night Cruise</h3><p>Open lobby cruise. Meet point and room details will be announced in clan chat.</p></div><div class="meet-time">20:00<span>UTC</span></div></article>
+            <article class="meet-card"><div class="meet-date"><b>30</b><span>Wed · Sep</span></div><div class="meet-details"><h3>Build &amp; Show</h3><p>Bring your latest garage build for a crew showcase.</p></div><div class="meet-time">21:00<span>UTC</span></div></article>
+            <article class="meet-card"><div class="meet-date"><b>03</b><span>Sat · Oct</span></div><div class="meet-details"><h3>Immortals Night Meet</h3><p>Full crew session. Lobby details will be announced in clan chat.</p></div><div class="meet-time">20:30<span>UTC</span></div></article>
+          </div>
+          <p class="schedule-note">Meet times are listed in UTC. Confirm lobby details with the clan before joining.</p>
+        </section>
+
+        <section class="page-view" id="view-account" aria-labelledby="account-title">
+          <div class="page-heading"><div><div class="eyebrow">CREW ACCESS</div><h1 id="account-title">Player account</h1><p class="page-subtitle">Log in or sign up to unlock the clan garage.</p></div></div>
+          <section class="panel account-panel">
+            <div id="account-auth">
+              <div class="account-tabs" role="group" aria-label="Account mode">
+                <button class="account-tab" type="button" data-account-mode="signup" aria-pressed="true">SIGN UP</button>
+                <button class="account-tab" type="button" data-account-mode="login" aria-pressed="false">LOGIN</button>
+              </div>
+              <form class="apply-form" id="signup-form">
+                <div class="apply-field"><label for="account-real-name">Real name</label><input id="account-real-name" name="realName" required autocomplete="name" placeholder="Your real name"></div>
+                <div class="apply-field"><label for="account-email">Email</label><input id="account-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com"></div>
+                <div class="apply-field"><label for="account-player-name">In-game name</label><input id="account-player-name" name="playerName" required autocomplete="nickname" placeholder="Your in-game name"></div>
+                <div class="apply-field"><label for="account-cpm-id">CPM ID</label><input id="account-cpm-id" name="cpmId" required autocomplete="off" placeholder="Your Car Parking Multiplayer ID"></div>
+                <div class="apply-field"><label for="account-birthday">Birthday</label><input id="account-birthday" name="birthday" type="date" required autocomplete="bday"></div>
+                <div class="apply-field"><label for="account-password">Password</label><input id="account-password" name="password" type="password" required minlength="8" maxlength="128" autocomplete="new-password" placeholder="At least 8 characters"></div>
+                <button class="button-primary" type="submit">CREATE LOCAL PROFILE</button>
+              </form>
+              <form class="apply-form" id="login-form" hidden>
+                <div class="apply-field"><label for="login-player-name">In-game name</label><input id="login-player-name" name="playerName" required autocomplete="nickname" placeholder="Your in-game name"></div>
+                <div class="apply-field"><label for="login-cpm-id">CPM ID</label><input id="login-cpm-id" name="cpmId" required autocomplete="off" placeholder="Your Car Parking Multiplayer ID"></div>
+                <div class="apply-field"><label for="login-password">Password</label><div style="display:flex; gap:8px; align-items:center;"><input id="login-password" name="password" type="password" required minlength="8" maxlength="128" autocomplete="current-password" placeholder="Your password" style="flex:1;"><button class="button-secondary" type="button" id="toggle-login-password" aria-controls="login-password" aria-label="Show password" style="min-width:90px;">SHOW</button></div></div>
+                <button class="button-primary" type="submit">OPEN LOCAL PROFILE</button>
+              </form>
+              <p class="account-notice" id="account-message" aria-live="polite">Demo only: profile details and a salted password hash are saved in this browser. Username uniqueness is checked only in this browser, not across devices.</p>
+            </div>
+            <div class="account-profile" id="account-profile" hidden>
+              <h2 id="account-welcome">Welcome</h2>
+              <p>Real name: <strong id="profile-real-name"></strong></p>
+              <p>Email: <strong id="profile-email"></strong></p>
+              <p>In-game name: <strong id="profile-player-name"></strong></p>
+              <p>CPM ID: <strong id="profile-cpm-id"></strong></p>
+              <p>Birthday: <strong id="profile-birthday"></strong></p>
+              <form class="apply-form" id="profile-edit-form">
+                <div class="apply-field"><label for="edit-player-name">Change in-game name</label><input id="edit-player-name" name="playerName" autocomplete="nickname" placeholder="Your in-game name"></div>
+                <div class="apply-field"><label for="edit-real-name">Edit real name</label><input id="edit-real-name" name="realName" autocomplete="name" placeholder="Your real name"></div>
+                <div class="apply-field"><label for="edit-email">Edit email</label><input id="edit-email" name="email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+                <div class="apply-field"><label for="edit-cpm-id">Edit CPM ID</label><input id="edit-cpm-id" name="cpmId" autocomplete="off" placeholder="Your CPM ID"></div>
+                <div class="apply-field"><label for="edit-password">New password</label><input id="edit-password" name="password" type="password" minlength="8" maxlength="128" autocomplete="new-password" placeholder="Leave blank to keep current password"></div>
+                <div class="apply-field"><label for="edit-confirm-password">Confirm new password</label><input id="edit-confirm-password" name="confirmPassword" type="password" minlength="8" maxlength="128" autocomplete="new-password" placeholder="Repeat new password"></div>
+                <button class="button-primary" type="submit">UPDATE PROFILE</button>
+              </form>
+              <button class="button-secondary" id="account-delete" type="button">DELETE PROFILE</button>
+              <button class="button-secondary" id="account-logout" type="button">LOG OUT</button>
+            </div>
+          </section>
+        </section>
+
+        <section class="page-view" id="view-applications" aria-labelledby="applications-title">
+          <div class="page-heading"><div><div class="eyebrow">ADMIN INBOX</div><h1 id="applications-title">Applications</h1><p class="page-subtitle">Review new clan applications from the Apply Now form.</p></div><button class="text-link" type="button" id="clear-applications">CLEAR INBOX</button></div>
+          <div class="inbox-list" id="application-list"></div>
+        </section>
+
+        <section class="page-view" id="view-check-status" aria-labelledby="check-status-title">
+          <div class="page-heading"><div><div class="eyebrow">APPLICANT PORTAL</div><h1 id="check-status-title">Check application</h1><p class="page-subtitle">Enter the CPM ID you used to apply and check for an admin reply.</p></div></div>
+          <section class="panel" style="max-width:620px;padding:22px">
+            <form class="apply-form" id="status-form">
+              <div class="apply-field"><label for="status-cpm-id">CPM ID</label><input id="status-cpm-id" name="cpmId" required placeholder="Your Car Parking Multiplayer ID"></div>
+              <button class="button-primary" type="submit">CHECK STATUS</button>
+            </form>
+            <div id="status-result" aria-live="polite" style="margin-top:16px"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div class="apply-modal" id="apply-modal" role="dialog" aria-modal="true" aria-labelledby="apply-title" aria-hidden="true">
+    <section class="apply-panel">
+      <div class="apply-header"><div><h2 id="apply-title">APPLY NOW</h2><p>Tell the crew a little about yourself and your build.</p></div><button class="close-button" type="button" data-close-apply aria-label="Close application">×</button></div>
+      <form class="apply-form" id="apply-form">
+        <div class="apply-field"><label for="player-name">Player name</label><input id="player-name" name="playerName" required autocomplete="name" placeholder="Your in-game name"></div>
+        <div class="apply-field"><label for="cpm-id">CPM ID</label><input id="cpm-id" name="cpmId" required placeholder="Your Car Parking Multiplayer ID"></div>
+        <div class="apply-field"><label for="platform">Platform</label><select id="platform" name="platform" required><option value="">Choose platform</option><option>Android</option><option>iOS</option><option>Other</option></select></div>
+        <div class="apply-field"><label for="apply-message">Why should you join?</label><textarea id="apply-message" name="message" required placeholder="Tell us about your builds, activity, or preferred meets"></textarea></div>
+        <p class="apply-note">This form is ready for your clan contact channel. It does not send personal details until a destination is configured.</p>
+        <button class="button-primary" type="submit">CHECK APPLICATION</button>
+      </form>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module">
+    let supabase = null;
+    try {
+      ({ supabase } = await import("./src/supabase.js"));
+    } catch (error) {
+      console.info("Supabase is unavailable; using browser-local media previews.");
+    }
+
+    const navButtons = [...document.querySelectorAll("[data-view]")];
+    const views = [...document.querySelectorAll(".page-view")];
+    const crumb = document.getElementById("crumb-current");
+    const toast = document.getElementById("toast");
+    const applyModal = document.getElementById("apply-modal");
+    const applyForm = document.getElementById("apply-form");
+    const applicationList = document.getElementById("application-list");
+    const applicationCount = document.getElementById("application-count");
+    const statusForm = document.getElementById("status-form");
+    const statusResult = document.getElementById("status-result");
+    const montageUpload = document.getElementById("montage-upload");
+    const montageFolderUpload = document.getElementById("montage-folder-upload");
+    const galleryUpload = document.getElementById("gallery-upload");
+    const topMediaFileInput = document.getElementById("fileInput");
+    const topMediaMessage = document.getElementById("message");
+    const montageUploadButton = document.querySelector("#view-montages .upload-button");
+    const montageFolderUploadButton = document.getElementById("montage-folder-upload-button");
+    const galleryUploadButton = document.querySelector("#view-gallery .upload-button");
+    const applicationsKey = "incognito-sept-immortals-applications";
+    const accountKey = "incognito-sept-immortals-local-account";
+    const accountsKey = "incognito-sept-immortals-local-accounts";
+    const deletedMediaKey = "incognito-sept-immortals-deleted-media";
+    const giveawayAccountKey = "incognito-sept-immortals-giveaway-account";
+    const memberPhotosKey = "incognito-sept-immortals-member-photos";
+    const signupForm = document.getElementById("signup-form");
+    const loginForm = document.getElementById("login-form");
+    const accountMessage = document.getElementById("account-message");
+    const accountAccess = document.getElementById("account-access");
+    let activeAccount = null;
+    let toastTimer;
+
+    function normalizePlayerName(playerName) {
+      return String(playerName || "").normalize("NFKC").trim().replace(/\s+/g, " ").toLowerCase();
+    }
+
+    function getLocalAccounts() {
+      try {
+        const savedAccounts = JSON.parse(localStorage.getItem(accountsKey) || "null");
+        const accounts = Array.isArray(savedAccounts) ? savedAccounts.filter((account) => account && typeof account.playerName === "string") : [];
+        const legacyAccount = JSON.parse(localStorage.getItem(accountKey) || "null");
+        if (legacyAccount && typeof legacyAccount.playerName === "string" && !accounts.some((account) => normalizePlayerName(account.playerName) === normalizePlayerName(legacyAccount.playerName) && String(account.cpmId || "").trim().toLowerCase() === String(legacyAccount.cpmId || "").trim().toLowerCase())) accounts.push(legacyAccount);
+        return accounts;
+      } catch (error) { return []; }
+    }
+
+    function saveLocalAccounts(accounts) {
+      localStorage.setItem(accountsKey, JSON.stringify(accounts));
+      try { localStorage.removeItem(accountKey); } catch (error) {}
+    }
+
+    function getGiveawayAccount() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(giveawayAccountKey) || "null");
+        return saved && typeof saved === "object" ? {
+          claimCode: String(saved.claimCode || "")
+        } : { claimCode: "" };
+      } catch (error) {
+        return { claimCode: "" };
+      }
+    }
+
+    function saveGiveawayAccount(data) {
+      localStorage.setItem(giveawayAccountKey, JSON.stringify({
+        claimCode: String(data?.claimCode || "")
+      }));
+    }
+
+    function generateGiveawayClaimCode() {
+      const prefix = "IS";
+      const date = new Date();
+      const shortDate = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, "0")}${String(date.getDate()).padStart(2, "0")}`;
+      const randomPart = Math.random().toString(36).slice(2, 8).toUpperCase();
+      return `${prefix}-${shortDate}-${randomPart}`;
+    }
+
+    const mediaBucket = "media";
+    const maxMediaFileSize = 50 * 1024 * 1024;
+    const mediaMimeTypes = {
+      mp4: "video/mp4", webm: "video/webm", mov: "video/quicktime", avi: "video/x-msvideo", mkv: "video/x-matroska",
+      mp3: "audio/mpeg", wav: "audio/wav", m4a: "audio/mp4", ogg: "audio/ogg",
+      jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif",
+      pdf: "application/pdf", txt: "text/plain", csv: "text/csv", zip: "application/zip",
+      doc: "application/msword", docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      xls: "application/vnd.ms-excel", xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      ppt: "application/vnd.ms-powerpoint", pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    };
+
+    function safeStorageSegment(value) {
+      return String(value || "file").normalize("NFKC").trim().replace(/[^a-zA-Z0-9._-]+/g, "-").replace(/^-+|-+$/g, "") || "file";
+    }
+
+    function getMediaExtension(fileName) {
+      return String(fileName || "").split(".").pop().toLowerCase();
+    }
+
+    function getStoredMediaName(fileName) {
+      return String(fileName || "").replace(/^upload-[a-f\d]{32}-/i, "");
+    }
+
+    function renderLocalMediaFiles(files, section, keepFolders) {
+      const target = document.getElementById(section === "montages" ? "montage-uploads" : "gallery-uploads");
+      const groups = new Map();
+      files.forEach((file) => {
+        const parts = keepFolders ? String(file.webkitRelativePath || "").split("/").filter(Boolean) : [];
+        const folderName = parts.length > 1 ? parts.slice(0, -1).join(" / ") : "Uploads";
+        if (!groups.has(folderName)) groups.set(folderName, []);
+        groups.get(folderName).push(file);
+      });
+
+      groups.forEach((groupFiles, folderName) => {
+        const folder = document.createElement("section");
+        folder.className = "montage-folder";
+        const heading = document.createElement("h3");
+        heading.textContent = folderName;
+        const grid = document.createElement("div");
+        grid.className = "media-grid";
+        groupFiles.forEach((file) => {
+          const card = document.createElement("article");
+          card.className = "media-card";
+          const url = URL.createObjectURL(file);
+          card.dataset.objectUrl = url;
+          const preview = document.createElement("div");
+          preview.className = "folder-upload-preview";
+          if (file.type.startsWith("video/")) {
+            const video = document.createElement("video");
+            video.className = "media-video";
+            video.controls = true;
+            video.playsInline = true;
+            video.preload = "metadata";
+            video.src = url;
+            preview.appendChild(video);
+          } else if (file.type.startsWith("audio/")) {
+            const audio = document.createElement("audio");
+            audio.controls = true;
+            audio.src = url;
+            preview.appendChild(audio);
+          } else {
+            const link = document.createElement("a");
+            link.className = "folder-upload-download";
+            link.href = url;
+            link.download = file.name;
+            link.textContent = `Download ${file.name}`;
+            preview.appendChild(link);
+          }
+          const meta = document.createElement("div");
+          meta.className = "media-meta";
+          const title = document.createElement("h3");
+          title.textContent = file.name;
+          const detail = document.createElement("p");
+          detail.textContent = "Temporary preview in this browser";
+          meta.append(title, detail);
+          card.append(preview, meta);
+          grid.appendChild(card);
+        });
+        folder.append(heading, grid);
+        target.appendChild(folder);
+      });
+      refreshMediaDeleteControls();
+      showToast("Files are previewing locally; open the site through Vite for shared storage.");
+    }
+
+    async function uploadMediaFiles(files, section, keepFolders = false) {
+      if (!supabase) {
+        renderLocalMediaFiles(files, section, keepFolders);
+        return { uploaded: files.length, failed: 0, skipped: 0 };
+      }
+      let uploaded = 0;
+      let failed = 0;
+      let skipped = 0;
+      for (const file of files) {
+        const extension = getMediaExtension(file.name);
+        const contentType = mediaMimeTypes[extension];
+        if (!contentType || file.size > maxMediaFileSize) {
+          skipped += 1;
+          continue;
+        }
+        const relativeParts = keepFolders ? String(file.webkitRelativePath || "").split("/").filter(Boolean) : [];
+        const folderParts = relativeParts.length > 1 ? relativeParts.slice(0, -1) : ["Uploads"];
+        const storedName = `upload-${crypto.randomUUID().replace(/-/g, "")}-${safeStorageSegment(file.name)}`;
+        const storagePath = [section, ...folderParts.map(safeStorageSegment), storedName].join("/");
+        try {
+          const { error } = await supabase.storage.from(mediaBucket).upload(storagePath, file, {
+            cacheControl: "3600",
+            contentType,
+            upsert: false
+          });
+          if (error) throw error;
+          uploaded += 1;
+        } catch (error) {
+          console.error("Media upload failed:", error.message);
+          failed += 1;
+        }
+      }
+      await loadStoredMedia();
+      const summary = `${uploaded} file${uploaded === 1 ? "" : "s"} uploaded`;
+      showToast([summary, failed ? `${failed} failed` : "", skipped ? `${skipped} skipped (unsupported or over 50 MB)` : ""].filter(Boolean).join("; ") + ".");
+      return { uploaded, failed, skipped };
+    }
+
+    async function listStoredMedia(path) {
+      const { data, error } = await supabase.storage.from(mediaBucket).list(path, {
+        limit: 1000,
+        sortBy: { column: "created_at", order: "desc" }
+      });
+      if (error) throw error;
+      const files = [];
+      for (const item of data || []) {
+        const itemPath = `${path}/${item.name}`;
+        if (!item.id) {
+          files.push(...await listStoredMedia(itemPath));
+        } else {
+          files.push({ ...item, path: itemPath });
+        }
+      }
+      return files;
+    }
+
+    function createStoredMediaCard(item) {
+      const card = document.createElement("article");
+      card.className = "media-card";
+      card.dataset.cloudMedia = "true";
+      card.dataset.storagePath = item.path;
+      const fileName = getStoredMediaName(item.name);
+      const extension = getMediaExtension(fileName);
+      const contentType = item.metadata?.mimetype || mediaMimeTypes[extension] || "application/octet-stream";
+      const { data } = supabase.storage.from(mediaBucket).getPublicUrl(item.path);
+      const preview = document.createElement("div");
+      preview.className = "folder-upload-preview";
+
+      if (contentType.startsWith("video/")) {
+        const video = document.createElement("video");
+        video.className = "media-video";
+        video.controls = true;
+        video.playsInline = true;
+        video.preload = "metadata";
+        video.src = data.publicUrl;
+        preview.appendChild(video);
+      } else if (contentType.startsWith("audio/")) {
+        const audio = document.createElement("audio");
+        audio.controls = true;
+        audio.src = data.publicUrl;
+        preview.appendChild(audio);
+      } else if (contentType.startsWith("image/")) {
+        const image = document.createElement("img");
+        image.className = "media-video";
+        image.alt = fileName;
+        image.src = data.publicUrl;
+        preview.appendChild(image);
+      } else {
+        const download = document.createElement("a");
+        download.className = "folder-upload-download";
+        download.href = data.publicUrl;
+        download.target = "_blank";
+        download.rel = "noopener noreferrer";
+        download.textContent = `Open ${fileName}`;
+        preview.appendChild(download);
+      }
+
+      const meta = document.createElement("div");
+      meta.className = "media-meta";
+      const title = document.createElement("h3");
+      title.textContent = fileName;
+      const detail = document.createElement("p");
+      detail.textContent = contentType;
+      meta.append(title, detail);
+      card.append(preview, meta);
+      return card;
+    }
+
+    async function loadStoredMedia() {
+      if (!supabase) return;
+      try {
+        const [montageFiles, galleryFiles] = await Promise.all([listStoredMedia("montages"), listStoredMedia("gallery")]);
+        const montageTarget = document.getElementById("montage-uploads");
+        const galleryTarget = document.getElementById("gallery-uploads");
+        montageTarget.replaceChildren();
+        galleryTarget.replaceChildren();
+        const folderGroups = new Map();
+        montageFiles.forEach((item) => {
+          const relativePath = item.path.slice("montages/".length).split("/");
+          const folderName = relativePath.slice(0, -1).join(" / ") || "Uploads";
+          if (!folderGroups.has(folderName)) folderGroups.set(folderName, []);
+          folderGroups.get(folderName).push(item);
+        });
+        folderGroups.forEach((items, folderName) => {
+          const folder = document.createElement("section");
+          folder.className = "montage-folder";
+          const heading = document.createElement("h3");
+          heading.textContent = folderName;
+          const grid = document.createElement("div");
+          grid.className = "media-grid";
+          items.forEach((item) => grid.appendChild(createStoredMediaCard(item)));
+          folder.append(heading, grid);
+          montageTarget.appendChild(folder);
+        });
+        galleryFiles.forEach((item) => galleryTarget.appendChild(createStoredMediaCard(item)));
+        await loadStoredMemberPhotos();
+        refreshMediaDeleteControls();
+      } catch (error) {
+        console.error("Shared media could not be loaded:", error.message);
+        showToast("Shared media is unavailable. Check the Supabase storage setup.");
+      }
+    }
+
+    function setupMemberPhotoUploads() {
+      document.querySelectorAll("#view-members .member-card").forEach((card) => {
+        const heading = card.querySelector("h3");
+        if (!heading || heading.textContent.trim() === "No signed-up members yet") return;
+        const memberId = String(card.dataset.memberPhotoId || "").trim().toLowerCase();
+        if (memberId) {
+          try {
+            const photos = JSON.parse(localStorage.getItem(memberPhotosKey) || "{}");
+            const savedPhoto = photos[memberId];
+            if (savedPhoto) {
+              const image = document.createElement("img");
+              image.alt = `${heading.textContent.trim()} photo`;
+              image.src = savedPhoto;
+              card.querySelector(".member-initial")?.replaceChildren(image);
+            }
+          } catch (error) {}
+        }
+        if (card.querySelector(".member-photo-control")) return;
+        const name = heading.textContent.trim();
+        const control = document.createElement("label");
+        control.className = "member-photo-control";
+        control.appendChild(document.createTextNode("UPLOAD PHOTO"));
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.dataset.memberPhoto = "true";
+        input.dataset.memberPhotoId = memberId;
+        input.setAttribute("aria-label", `Upload photo for ${name}`);
+        control.appendChild(input);
+        card.appendChild(control);
+      });
+    }
+
+    async function loadStoredMemberPhotos() {
+      if (!supabase) return;
+      const memberCards = [...document.querySelectorAll("#view-members .member-card[data-member-photo-id]")];
+      await Promise.all(memberCards.map(async (card) => {
+        const memberId = String(card.dataset.memberPhotoId || "").trim().toLowerCase();
+        if (!memberId) return;
+        try {
+          const photos = await listStoredMedia(`members/${safeStorageSegment(memberId)}`);
+          if (!photos.length) return;
+          const { data } = supabase.storage.from(mediaBucket).getPublicUrl(photos[0].path);
+          const image = document.createElement("img");
+          image.alt = `${card.querySelector("h3").textContent.trim()} photo`;
+          image.src = data.publicUrl;
+          card.querySelector(".member-initial")?.replaceChildren(image);
+        } catch (error) {
+          console.error("Member photo could not be loaded:", error.message);
+        }
+      }));
+    }
+
+    async function previewMemberPhoto(input) {
+      const file = input.files[0];
+      if (!file || !file.type.startsWith("image/")) return;
+      const card = input.closest(".member-card");
+      const memberId = String(input.dataset.memberPhotoId || "").trim().toLowerCase();
+      if (!memberId) return;
+      const portrait = card.querySelector(".member-initial");
+      try {
+        const source = await createImageBitmap(file);
+        const scale = Math.min(1, 512 / Math.max(source.width, source.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(source.width * scale));
+        canvas.height = Math.max(1, Math.round(source.height * scale));
+        canvas.getContext("2d").drawImage(source, 0, 0, canvas.width, canvas.height);
+        source.close();
+        if (!supabase) {
+          const photo = canvas.toDataURL("image/jpeg", 0.82);
+          const photos = JSON.parse(localStorage.getItem(memberPhotosKey) || "{}");
+          photos[memberId] = photo;
+          localStorage.setItem(memberPhotosKey, JSON.stringify(photos));
+          const image = document.createElement("img");
+          image.alt = `${card.querySelector("h3").textContent.trim()} photo`;
+          image.src = photo;
+          portrait.replaceChildren(image);
+          showToast("Member photo saved in this browser.");
+          return;
+        }
+        const photoBlob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.82));
+        if (!photoBlob) throw new Error("Could not compress the selected image.");
+        const storagePath = `members/${safeStorageSegment(memberId)}/photo-${crypto.randomUUID().replace(/-/g, "")}.jpg`;
+        const { error } = await supabase.storage.from(mediaBucket).upload(storagePath, photoBlob, {
+          cacheControl: "3600",
+          contentType: "image/jpeg",
+          upsert: false
+        });
+        if (error) throw error;
+        const { data } = supabase.storage.from(mediaBucket).getPublicUrl(storagePath);
+        try {
+          const photos = JSON.parse(localStorage.getItem(memberPhotosKey) || "{}");
+          photos[memberId] = data.publicUrl;
+          localStorage.setItem(memberPhotosKey, JSON.stringify(photos));
+        } catch (error) {}
+        const image = document.createElement("img");
+        image.alt = `${card.querySelector("h3").textContent.trim()} photo`;
+        image.src = data.publicUrl;
+        portrait.replaceChildren(image);
+        showToast("Member photo saved to shared storage.");
+      } catch (error) {
+        showToast("This browser could not save the photo. Try a smaller image.");
+      } finally {
+        input.value = "";
+      }
+    }
+
+    function getDeletedMedia() {
+      try {
+        const deletedMedia = JSON.parse(localStorage.getItem(deletedMediaKey) || "[]");
+        return Array.isArray(deletedMedia) ? deletedMedia : [];
+      } catch (error) { return []; }
+    }
+
+    function restoreDeletedMedia() {
+      const deletedMedia = new Set(getDeletedMedia());
+      document.querySelectorAll("[data-media-id]").forEach((card) => {
+        if (deletedMedia.has(card.dataset.mediaId)) card.remove();
+      });
+    }
+
+    function refreshMediaDeleteControls() {
+      document.querySelectorAll("#view-montages .media-card, #view-gallery .media-card").forEach((card) => {
+        const existingButton = card.querySelector(".media-delete");
+        if (card.dataset.cloudMedia === "true") {
+          existingButton?.remove();
+          return;
+        }
+        if (!canManageApplications()) {
+          existingButton?.remove();
+          return;
+        }
+        if (existingButton) return;
+        const title = card.querySelector(".media-meta h3")?.textContent.trim() || "media";
+        const button = document.createElement("button");
+        button.className = "media-delete";
+        button.type = "button";
+        button.textContent = "×";
+        button.title = `Delete ${title}`;
+        button.setAttribute("aria-label", `Delete ${title}`);
+        button.addEventListener("click", () => {
+          if (!canManageApplications()) return;
+          const mediaId = card.dataset.mediaId;
+          if (mediaId) {
+            try {
+              const deletedMedia = getDeletedMedia();
+              if (!deletedMedia.includes(mediaId)) deletedMedia.push(mediaId);
+              localStorage.setItem(deletedMediaKey, JSON.stringify(deletedMedia));
+            } catch (error) {
+              showToast("This browser could not save the media removal.");
+              return;
+            }
+          }
+          if (card.dataset.objectUrl) URL.revokeObjectURL(card.dataset.objectUrl);
+          card.remove();
+          showToast(`${title} deleted from the ${card.closest("#view-montages") ? "montages" : "gallery"}.`);
+        });
+        card.appendChild(button);
+      });
+    }
+
+    function getApplications() {
+      try { return JSON.parse(localStorage.getItem(applicationsKey) || "[]"); }
+      catch (error) { return []; }
+    }
+
+    function saveApplications(applications) {
+      localStorage.setItem(applicationsKey, JSON.stringify(applications));
+    }
+
+    function renderApplications() {
+      if (!canManageApplications()) {
+        applicationCount.textContent = "0";
+        applicationList.replaceChildren();
+        return;
+      }
+      const applications = getApplications();
+      const newCount = applications.filter((application) => !application.reviewed && !application.accepted).length;
+      applicationCount.textContent = newCount;
+      if (!applications.length) {
+        applicationList.innerHTML = '<div class="inbox-empty">No applications yet. New submissions will appear here.</div>';
+        return;
+      }
+      applicationList.innerHTML = applications.slice().reverse().map((application) => `
+        <article class="application-card ${application.accepted ? "is-accepted" : application.reviewed ? "is-reviewed" : ""}">
+          <div>
+            <h3>${escapeHtml(application.playerName)}</h3>
+            <div class="application-meta"><span>CPM ID: ${escapeHtml(application.cpmId)}</span><span>Platform: ${escapeHtml(application.platform)}</span><span>${escapeHtml(application.createdAt)}</span></div>
+            <div class="application-status ${application.accepted ? "is-accepted" : ""}">${application.accepted ? "Accepted" : application.reviewed ? "Reviewed" : "Pending"}</div>
+            <p class="application-message">${escapeHtml(application.message)}</p>
+            ${application.reply ? `<p class="reply-saved"><strong>Admin reply</strong>${escapeHtml(application.reply)}</p>` : `<form class="reply-form" data-reply-form="${application.id}"><label for="reply-${application.id}">Reply to applicant</label><textarea id="reply-${application.id}" required placeholder="Write an admin reply">${escapeHtml(application.reply || "")}</textarea><button class="review-button" type="submit">SAVE REPLY</button></form>`}
+          </div>
+          <div class="application-actions">
+            <button class="review-button" type="button" data-review-id="${application.id}">${application.reviewed ? "Reviewed" : "Mark reviewed"}</button>
+            <button class="review-button" type="button" data-accept-id="${application.id}">${application.accepted ? "Accepted" : "Mark accepted"}</button>
+          </div>
+        </article>`).join("");
+      applicationList.querySelectorAll("[data-review-id]").forEach((button) => button.addEventListener("click", () => {
+        const updated = getApplications().map((application) => application.id === button.dataset.reviewId ? { ...application, reviewed: true, accepted: application.accepted || false } : application);
+        saveApplications(updated);
+        renderApplications();
+      }));
+      applicationList.querySelectorAll("[data-accept-id]").forEach((button) => button.addEventListener("click", () => {
+        const updated = getApplications().map((application) => {
+          if (application.id !== button.dataset.acceptId) return application;
+          const nextAccepted = !application.accepted;
+          return { ...application, accepted: nextAccepted, reviewed: true, reply: application.reply || (nextAccepted ? "Congratulations — your application has been accepted by the admins." : application.reply) };
+        });
+        saveApplications(updated);
+        renderApplications();
+        showToast("Application marked as accepted.");
+      }));
+      applicationList.querySelectorAll("[data-reply-form]").forEach((form) => form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const reply = form.querySelector("textarea").value.trim();
+        if (!reply) return;
+        const updated = getApplications().map((application) => application.id === form.dataset.replyForm ? { ...application, reply, reviewed: true } : application);
+        saveApplications(updated);
+        renderApplications();
+        showToast("Admin reply saved to this application.");
+      }));
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", "\"": "&quot;" }[character]));
+    }
+
+    function canManageApplications(account = activeAccount) {
+      const role = getAccountRole(account);
+      return role === "owner" || role === "admin";
+    }
+
+    function showView(name) {
+      if (!activeAccount && name !== "account") name = "account";
+      if (name === "applications" && !canManageApplications()) {
+        showToast("Applications are available to the clan owner and admin only.");
+        return;
+      }
+      const target = document.getElementById(`view-${name}`);
+      if (!target) return;
+      views.forEach((view) => view.classList.toggle("is-active", view === target));
+      navButtons.forEach((button) => {
+        if (button.dataset.view === name) button.setAttribute("aria-current", "page");
+        else button.removeAttribute("aria-current");
+      });
+      crumb.textContent = target.querySelector("h1").textContent;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("is-visible");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 2600);
+    }
+
+    document.querySelectorAll("[data-account-mode]").forEach((button) => button.addEventListener("click", () => {
+      const isSignup = button.dataset.accountMode === "signup";
+      document.querySelectorAll("[data-account-mode]").forEach((tab) => tab.setAttribute("aria-pressed", String(tab === button)));
+      signupForm.hidden = !isSignup;
+      loginForm.hidden = isSignup;
+      accountMessage.textContent = "Demo only: profile details and a salted password hash are saved in this browser. Username uniqueness is checked only in this browser, not across devices.";
+    }));
+    function getAccountRole(account) {
+      const role = String(account?.role || "").trim().toLowerCase();
+      if (["owner", "admin", "member"].includes(role)) return role;
+      const playerName = normalizePlayerName(account?.playerName);
+      if (playerName === "isi メ inu") return "owner";
+      if (playerName === "isi メ sac media" || playerName === "isi メ migz") return "admin";
+      return "member";
+    }
+
+    function getMemberRole(account) {
+      const role = getAccountRole(account);
+      if (role === "owner") return { label: "OWNER", role: "Clan owner", value: "owner" };
+      if (role === "admin") return { label: "ADMIN", role: "Clan admin", value: "admin" };
+      return { label: "MEMBER", role: "Clan member", value: "member" };
+    }
+
+    function getInitials(playerName) {
+      return (String(playerName || "M").split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "M");
+    }
+
+    function renderMemberCard(account, index, includeRoleControls = true) {
+      const initials = getInitials(account.playerName);
+      const role = getMemberRole(account);
+      const roleControl = includeRoleControls && canManageApplications() ? `
+        <label class="member-role-editor">
+          <span>Role</span>
+          <select class="member-role-select" data-member-role-id="${escapeHtml(String(account.cpmId || account.playerName))}">
+            <option value="member" ${role.value === "member" ? "selected" : ""}>Member</option>
+            <option value="admin" ${role.value === "admin" ? "selected" : ""}>Admin</option>
+            <option value="owner" ${role.value === "owner" ? "selected" : ""}>Owner</option>
+          </select>
+        </label>` : "";
+      return `<article class="member-card" data-member-photo-id="${escapeHtml(account.cpmId)}"><div class="member-role">${role.label} · ${String(index + 1).padStart(2, "0")}</div><div class="member-initial">${escapeHtml(initials)}</div><h3>${escapeHtml(account.playerName)}</h3><p>${escapeHtml(role.role)} · CPM ID: ${escapeHtml(account.cpmId)}</p>${roleControl}</article>`;
+    }
+
+    function renderMemberRoleGrid(targetId, accounts, emptyMessage, includeRoleControls = true) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      if (!accounts.length) {
+        target.innerHTML = `<article class="member-card"><div class="member-role">MEMBER · 00</div><div class="member-initial">—</div><h3>${escapeHtml(emptyMessage)}</h3><p>New local profiles appear here.</p></article>`;
+        return;
+      }
+      target.innerHTML = accounts.map((account, index) => renderMemberCard(account, index, includeRoleControls)).join("");
+      target.querySelectorAll(".member-role-select").forEach((select) => {
+        select.addEventListener("change", () => {
+          if (!canManageApplications()) return;
+          const targetCpmId = String(select.dataset.memberRoleId || "").trim();
+          const accounts = getLocalAccounts();
+          const updatedAccounts = accounts.map((account) => {
+            if (String(account.cpmId || "").trim() !== targetCpmId) return account;
+            return { ...account, role: select.value };
+          });
+          saveLocalAccounts(updatedAccounts);
+          renderLeadership();
+          renderAccount();
+          showToast("Member role updated.");
+        });
+      });
+    }
+
+    function getRolePriority(account) {
+      const role = getAccountRole(account);
+      if (role === "owner") return 0;
+      if (role === "admin") return 1;
+      return 2;
+    }
+
+    function renderLeadership() {
+      const roleList = document.getElementById("leadership-role-list");
+      if (!roleList) return;
+      const accounts = getLocalAccounts();
+      const ownerAccounts = accounts.filter((account) => getAccountRole(account) === "owner").sort((a, b) => normalizePlayerName(a.playerName).localeCompare(normalizePlayerName(b.playerName)));
+      const adminAccounts = accounts.filter((account) => getAccountRole(account) === "admin").sort((a, b) => normalizePlayerName(a.playerName).localeCompare(normalizePlayerName(b.playerName)));
+      const fallbackOwners = [{ playerName: "ISI メ INU", role: "Clan owner" }];
+      const fallbackAdmins = [
+        { playerName: "ISI メ SAC MEDIA", role: "Clan admin" },
+        { playerName: "ISI メ MIGZ", role: "Clan admin" }
+      ];
+      const leadershipAccounts = [
+        ...(ownerAccounts.length ? ownerAccounts : fallbackOwners),
+        ...(adminAccounts.length ? adminAccounts : fallbackAdmins)
+      ].sort((a, b) => getRolePriority(a) - getRolePriority(b) || normalizePlayerName(a.playerName).localeCompare(normalizePlayerName(b.playerName))).slice(0, 5);
+
+      roleList.innerHTML = leadershipAccounts.map((account) => {
+        const role = getMemberRole(account);
+        const initials = getInitials(account.playerName);
+        return `<div class="role-row"><div class="role-avatar">${escapeHtml(initials)}</div><div class="role-person"><strong>${escapeHtml(account.playerName)}</strong><span>${escapeHtml(role.role)}</span></div><span class="role-pill">${escapeHtml(role.label)}</span></div>`;
+      }).join("");
+    }
+
+    function renderSignedUpMembers() {
+      const accounts = getLocalAccounts();
+      const uniqueAccounts = accounts.filter((account, index, collection) => collection.findIndex((entry) => normalizePlayerName(entry.playerName) === normalizePlayerName(account.playerName) && String(entry.cpmId || "").trim().toLowerCase() === String(account.cpmId || "").trim().toLowerCase()) === index);
+      const ownerAccounts = uniqueAccounts.filter((account) => getAccountRole(account) === "owner").sort((a, b) => normalizePlayerName(a.playerName).localeCompare(normalizePlayerName(b.playerName)));
+      const adminAccounts = uniqueAccounts.filter((account) => getAccountRole(account) === "admin").sort((a, b) => normalizePlayerName(a.playerName).localeCompare(normalizePlayerName(b.playerName)));
+      const memberAccounts = uniqueAccounts.filter((account) => getAccountRole(account) === "member").sort((a, b) => normalizePlayerName(a.playerName).localeCompare(normalizePlayerName(b.playerName)));
+      renderMemberRoleGrid("owner-member-grid", ownerAccounts, "No owner assigned yet", true);
+      renderMemberRoleGrid("admin-member-grid", adminAccounts, "No admins assigned yet", true);
+      renderMemberRoleGrid("signed-up-member-grid", memberAccounts, "No signed-up members yet", true);
+      setupMemberPhotoUploads();
+    }
+
+    function renderAccount() {
+      const canUploadMedia = canManageApplications();
+      document.getElementById("account-auth").hidden = Boolean(activeAccount);
+      document.getElementById("account-profile").hidden = !activeAccount;
+      navButtons.forEach((button) => { button.hidden = !activeAccount || (button.dataset.view === "applications" && !canManageApplications()); });
+      document.querySelector(".nav-label").hidden = !activeAccount;
+      montageUploadButton.hidden = !activeAccount || !canUploadMedia;
+      montageFolderUploadButton.hidden = !activeAccount || !canUploadMedia;
+      galleryUploadButton.hidden = !activeAccount || !canUploadMedia;
+      montageUpload.disabled = !activeAccount || !canUploadMedia;
+      montageFolderUpload.disabled = !activeAccount || !canUploadMedia;
+      galleryUpload.disabled = !activeAccount || !canUploadMedia;
+      if (!canUploadMedia) {
+        montageUpload.value = "";
+        montageFolderUpload.value = "";
+        galleryUpload.value = "";
+      }
+      accountAccess.textContent = activeAccount ? activeAccount.playerName : "LOGIN / SIGN UP";
+      accountAccess.setAttribute("aria-label", activeAccount ? "Open player profile" : "Log in or sign up");
+      renderApplications();
+      renderLeadership();
+      renderSignedUpMembers();
+      refreshMediaDeleteControls();
+      const giveawayCodeInput = document.getElementById("giveaway-code");
+      const giveawayAccountForm = document.getElementById("giveaway-account-form");
+      const giveawayAccountMessage = document.getElementById("giveaway-account-message");
+      const generateGiveawayCodeButton = document.getElementById("generate-giveaway-code");
+      const copyGiveawayCodeButton = document.getElementById("copy-giveaway-code");
+      if (giveawayCodeInput && giveawayAccountForm && giveawayAccountMessage) {
+        const giveawayAccount = getGiveawayAccount();
+        const isAdmin = canManageApplications();
+        giveawayCodeInput.value = giveawayAccount.claimCode || "";
+        giveawayCodeInput.disabled = !isAdmin;
+        if (generateGiveawayCodeButton) generateGiveawayCodeButton.disabled = !isAdmin;
+        if (copyGiveawayCodeButton) copyGiveawayCodeButton.disabled = !isAdmin || !giveawayCodeInput.value.trim();
+        const submitButton = giveawayAccountForm.querySelector("button[type='submit']");
+        if (submitButton) submitButton.disabled = !isAdmin;
+        giveawayAccountMessage.textContent = isAdmin ? "Admins can save the giveaway claim code in this browser." : "Only admins can manage the giveaway claim code.";
+      }
+      if (!activeAccount) return;
+      document.getElementById("account-welcome").textContent = `Welcome, ${activeAccount.realName || activeAccount.playerName}`;
+      document.getElementById("profile-real-name").textContent = activeAccount.realName || "Not provided";
+      document.getElementById("profile-email").textContent = activeAccount.email || "Not provided";
+      document.getElementById("profile-player-name").textContent = activeAccount.playerName;
+      document.getElementById("profile-cpm-id").textContent = activeAccount.cpmId;
+      document.getElementById("profile-birthday").textContent = activeAccount.birthday;
+      const profileEditForm = document.getElementById("profile-edit-form");
+      if (profileEditForm) {
+        profileEditForm.querySelector("#edit-player-name").value = activeAccount.playerName;
+        profileEditForm.querySelector("#edit-real-name").value = activeAccount.realName || "";
+        profileEditForm.querySelector("#edit-email").value = activeAccount.email || "";
+        profileEditForm.querySelector("#edit-cpm-id").value = activeAccount.cpmId || "";
+        profileEditForm.querySelector("#edit-password").value = "";
+        profileEditForm.querySelector("#edit-confirm-password").value = "";
+      }
+    }
+    function bytesToHex(bytes) {
+      return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+    }
+    function hexToBytes(hex) {
+      return Uint8Array.from(hex.match(/.{2}/g) || [], (pair) => parseInt(pair, 16));
+    }
+    async function derivePasswordHash(password, salt = crypto.getRandomValues(new Uint8Array(16))) {
+      const material = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+      const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations: 210000, hash: "SHA-256" }, material, 256);
+      return { passwordSalt: bytesToHex(salt), passwordHash: bytesToHex(new Uint8Array(bits)) };
+    }
+    async function passwordMatches(password, account) {
+      if (!/^[\da-f]{32}$/i.test(account.passwordSalt || "") || !/^[\da-f]{64}$/i.test(account.passwordHash || "")) return false;
+      const derived = await derivePasswordHash(password, hexToBytes(account.passwordSalt));
+      return derived.passwordHash === account.passwordHash;
+    }
+    signupForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const submitButton = signupForm.querySelector("button[type='submit']");
+      submitButton.disabled = true;
+      try {
+        const formData = new FormData(signupForm);
+        const playerName = formData.get("playerName").trim();
+        const accounts = getLocalAccounts();
+        if (accounts.some((account) => normalizePlayerName(account.playerName) === normalizePlayerName(playerName))) {
+          accountMessage.textContent = "That in-game name is already registered in this browser. Log in or choose another name.";
+          return;
+        }
+        const passwordData = await derivePasswordHash(formData.get("password"));
+        const latestAccounts = getLocalAccounts();
+        if (latestAccounts.some((account) => normalizePlayerName(account.playerName) === normalizePlayerName(playerName))) {
+          accountMessage.textContent = "That in-game name is already registered in this browser. Log in or choose another name.";
+          return;
+        }
+        activeAccount = { realName: formData.get("realName").trim(), email: formData.get("email").trim(), playerName, cpmId: formData.get("cpmId").trim(), birthday: formData.get("birthday"), ...passwordData };
+        saveLocalAccounts([...latestAccounts, activeAccount]);
+        renderAccount();
+        showView("overview");
+      } catch (error) {
+        activeAccount = null;
+        accountMessage.textContent = "This browser could not create the profile. Check browser storage and Web Crypto support, then try again.";
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const submitButton = loginForm.querySelector("button[type='submit']");
+      submitButton.disabled = true;
+      try {
+        const accounts = getLocalAccounts();
+        const formData = new FormData(loginForm);
+        const playerName = normalizePlayerName(formData.get("playerName"));
+        const cpmId = formData.get("cpmId").trim().toLowerCase();
+        let savedAccount = accounts.find((account) => normalizePlayerName(account.playerName) === playerName && String(account.cpmId || "").trim().toLowerCase() === cpmId);
+        if (!savedAccount) {
+          accountMessage.textContent = "No matching local profile found. Check your details or sign up in this browser.";
+          return;
+        }
+        if (!savedAccount.passwordSalt && !savedAccount.passwordHash) {
+          const upgradedAccount = { ...savedAccount, ...await derivePasswordHash(formData.get("password")) };
+          saveLocalAccounts(accounts.map((account) => account === savedAccount ? upgradedAccount : account));
+          savedAccount = upgradedAccount;
+          accountMessage.textContent = "A password has been added to this older local profile.";
+        } else if (!await passwordMatches(formData.get("password"), savedAccount)) {
+          accountMessage.textContent = "Incorrect password. Please try again.";
+          return;
+        }
+        activeAccount = savedAccount;
+        renderAccount();
+        showView("overview");
+      } catch (error) {
+        accountMessage.textContent = "Password sign-in could not be completed. Check browser storage and Web Crypto support, then try again.";
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+    document.getElementById("toggle-login-password").addEventListener("click", (event) => {
+      const passwordInput = document.getElementById("login-password");
+      const showPassword = passwordInput.type === "password";
+      passwordInput.type = showPassword ? "text" : "password";
+      event.currentTarget.textContent = showPassword ? "HIDE" : "SHOW";
+      event.currentTarget.setAttribute("aria-label", showPassword ? "Hide password" : "Show password");
+    });
+    document.getElementById("account-logout").addEventListener("click", () => {
+      activeAccount = null;
+      renderAccount();
+      showView("account");
+      showToast("Logged out of this local profile.");
+    });
+    document.getElementById("account-delete")?.addEventListener("click", () => {
+      if (!activeAccount) return;
+      const confirmed = window.confirm("Delete your local profile? This cannot be undone.");
+      if (!confirmed) return;
+      const accounts = getLocalAccounts().filter((account) => !(String(account.cpmId || "").trim().toLowerCase() === String(activeAccount.cpmId || "").trim().toLowerCase() && normalizePlayerName(account.playerName) === normalizePlayerName(activeAccount.playerName)));
+      saveLocalAccounts(accounts);
+      activeAccount = null;
+      renderAccount();
+      showView("account");
+      showToast("Local profile deleted.");
+    });
+    document.getElementById("profile-edit-form")?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!activeAccount) return;
+      const formData = new FormData(event.currentTarget);
+      const nextPlayerName = formData.get("playerName").trim();
+      const nextRealName = formData.get("realName").trim();
+      const nextEmail = formData.get("email").trim();
+      const nextCpmId = formData.get("cpmId").trim();
+      const nextPassword = formData.get("password").trim();
+      const confirmPassword = formData.get("confirmPassword").trim();
+      if (!nextPlayerName) {
+        showToast("Enter a valid in-game name.");
+        return;
+      }
+      if (!nextCpmId) {
+        showToast("Enter a valid CPM ID.");
+        return;
+      }
+      if (nextPassword && nextPassword !== confirmPassword) {
+        showToast("New password and confirmation do not match.");
+        return;
+      }
+      if (nextPassword && nextPassword.length < 8) {
+        showToast("Password must be at least 8 characters.");
+        return;
+      }
+      const accounts = getLocalAccounts();
+      const nameTaken = accounts.some((account) => {
+        const sameProfile = String(account.cpmId || "").trim().toLowerCase() === String(activeAccount.cpmId || "").trim().toLowerCase();
+        return normalizePlayerName(account.playerName) === normalizePlayerName(nextPlayerName) && !sameProfile;
+      });
+      const cpmIdTaken = accounts.some((account) => {
+        const sameProfile = normalizePlayerName(account.playerName) === normalizePlayerName(activeAccount.playerName);
+        return String(account.cpmId || "").trim().toLowerCase() === nextCpmId.toLowerCase() && !sameProfile;
+      });
+      if (nameTaken) {
+        showToast("That in-game name is already in use.");
+        return;
+      }
+      if (cpmIdTaken) {
+        showToast("That CPM ID is already in use.");
+        return;
+      }
+      const updatedAccounts = await Promise.all(accounts.map(async (account) => {
+        const sameProfile = String(account.cpmId || "").trim().toLowerCase() === String(activeAccount.cpmId || "").trim().toLowerCase();
+        if (!sameProfile) return account;
+        const passwordData = nextPassword ? await derivePasswordHash(nextPassword) : {};
+        return {
+          ...account,
+          realName: nextRealName || account.realName || "",
+          email: nextEmail || account.email || "",
+          playerName: nextPlayerName,
+          cpmId: nextCpmId,
+          ...passwordData,
+        };
+      }));
+      saveLocalAccounts(updatedAccounts);
+      activeAccount = updatedAccounts.find((account) => String(account.cpmId || "").trim().toLowerCase() === nextCpmId.toLowerCase()) || { ...activeAccount, playerName: nextPlayerName, cpmId: nextCpmId, realName: nextRealName || activeAccount.realName || "", email: nextEmail || activeAccount.email || "" };
+      renderAccount();
+      showToast("Profile updated successfully.");
+    });
+
+    navButtons.forEach((button) => button.addEventListener("click", () => showView(button.dataset.view)));
+    accountAccess.addEventListener("click", () => showView("account"));
+    document.querySelectorAll("[data-go]").forEach((button) => button.addEventListener("click", () => showView(button.dataset.go)));
+    document.querySelector("[data-open-apply]").addEventListener("click", () => {
+      applyModal.classList.add("is-open");
+      applyModal.setAttribute("aria-hidden", "false");
+      document.getElementById("player-name").focus();
+    });
+    document.querySelector("[data-close-apply]").addEventListener("click", () => {
+      applyModal.classList.remove("is-open");
+      applyModal.setAttribute("aria-hidden", "true");
+    });
+    applyModal.addEventListener("click", (event) => {
+      if (event.target === applyModal) document.querySelector("[data-close-apply]").click();
+    });
+    applyForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(applyForm);
+      const applications = getApplications();
+      applications.push({ id: `${Date.now()}`, playerName: formData.get("playerName"), cpmId: formData.get("cpmId"), platform: formData.get("platform"), message: formData.get("message"), createdAt: new Date().toLocaleString(), reviewed: false, accepted: false });
+      saveApplications(applications);
+      renderApplications();
+      applyForm.reset();
+      showToast("Application checked. Connect a clan contact channel to send it.");
+      document.querySelector("[data-close-apply]").click();
+    });
+    const giveawayAccountForm = document.getElementById("giveaway-account-form");
+    if (giveawayAccountForm) {
+      giveawayAccountForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!canManageApplications()) {
+          showToast("Only admins can update the giveaway claim code.");
+          return;
+        }
+        const formData = new FormData(giveawayAccountForm);
+        const claimCode = String(formData.get("giveawayCode") || "").trim();
+        if (!claimCode) {
+          showToast("Add the giveaway claim code.");
+          return;
+        }
+        saveGiveawayAccount({ claimCode });
+        showToast("Giveaway claim code saved in this browser.");
+      });
+    }
+    const generateGiveawayCodeButton = document.getElementById("generate-giveaway-code");
+    if (generateGiveawayCodeButton) {
+      generateGiveawayCodeButton.addEventListener("click", () => {
+        if (!canManageApplications()) {
+          showToast("Only admins can generate a claim key.");
+          return;
+        }
+        const nextCode = generateGiveawayClaimCode();
+        const giveawayCodeInput = document.getElementById("giveaway-code");
+        if (giveawayCodeInput) {
+          giveawayCodeInput.value = nextCode;
+          const giveawayAccount = getGiveawayAccount();
+          saveGiveawayAccount({ ...giveawayAccount, claimCode: nextCode });
+        }
+        showToast("Claim key generated.");
+      });
+    }
+    const copyGiveawayCodeButton = document.getElementById("copy-giveaway-code");
+    if (copyGiveawayCodeButton) {
+      copyGiveawayCodeButton.addEventListener("click", async () => {
+        if (!canManageApplications()) {
+          showToast("Only admins can copy the claim key.");
+          return;
+        }
+        const giveawayCodeInput = document.getElementById("giveaway-code");
+        const claimCode = giveawayCodeInput ? giveawayCodeInput.value.trim() : "";
+        if (!claimCode) {
+          showToast("Generate a claim key first.");
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(claimCode);
+          showToast("Claim key copied to clipboard.");
+        } catch (error) {
+          showToast("Clipboard access was blocked. Manually copy the claim key.");
+        }
+      });
+    }
+    const toggleGiveawayPasswordButton = document.getElementById("toggle-giveaway-password");
+    if (toggleGiveawayPasswordButton) {
+      toggleGiveawayPasswordButton.addEventListener("click", () => {
+        showToast("Password entry has been removed from the giveaway claim flow.");
+      });
+    }
+    document.getElementById("clear-applications").addEventListener("click", () => {
+      if (!canManageApplications()) return;
+      saveApplications([]);
+      renderApplications();
+      showToast("Application inbox cleared on this browser.");
+    });
+    montageUpload.addEventListener("change", async (event) => {
+      if (!canManageApplications()) {
+        event.target.value = "";
+        showToast("Only the clan owner and admins can upload montages.");
+        return;
+      }
+      await uploadMediaFiles([...event.target.files], "montages");
+      event.target.value = "";
+    });
+    montageFolderUpload.addEventListener("change", async (event) => {
+      if (!canManageApplications()) {
+        event.target.value = "";
+        showToast("Only the clan owner and admins can upload montage folders.");
+        return;
+      }
+      if (!event.target.files.length) return;
+      await uploadMediaFiles([...event.target.files], "montages", true);
+      event.target.value = "";
+    });
+    galleryUpload.addEventListener("change", async (event) => {
+      if (!canManageApplications()) {
+        event.target.value = "";
+        showToast("Only the clan owner and admins can upload gallery media.");
+        return;
+      }
+      await uploadMediaFiles([...event.target.files], "gallery");
+      event.target.value = "";
+    });
+    topMediaFileInput.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (!canManageApplications()) {
+        topMediaMessage.textContent = "Only the clan owner and admins can upload media.";
+        event.target.value = "";
+        return;
+      }
+      topMediaMessage.textContent = "Uploading to shared gallery...";
+      const result = await uploadMediaFiles([file], "gallery");
+      topMediaMessage.textContent = result.uploaded ? "Upload complete. View it in the Gallery section." : "Upload failed. Check the file type and Supabase setup.";
+      event.target.value = "";
+    });
+    document.getElementById("view-members").addEventListener("change", (event) => {
+      if (event.target.matches("[data-member-photo]")) previewMemberPhoto(event.target);
+    });
+    statusForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const cpmId = new FormData(statusForm).get("cpmId").trim().toLowerCase();
+      const application = getApplications().find((entry) => String(entry.cpmId).trim().toLowerCase() === cpmId);
+      if (!application) {
+        statusResult.innerHTML = '<div class="status-result"><strong>No application found</strong>Check that your CPM ID matches the one used on your application.</div>';
+        return;
+      }
+      const statusText = application.accepted ? "Accepted" : application.reply ? "Reply available" : application.reviewed ? "Application reviewed" : "Application received";
+      const detailedMessage = application.accepted
+        ? "<br><br><strong>Accepted</strong>Congratulations — the admins have accepted your application and you can proceed with the next steps."
+        : application.reply
+          ? `<br><br><strong>Admin reply</strong>${escapeHtml(application.reply)}`
+          : "<br><br>Your application is still waiting for an admin reply.";
+      statusResult.innerHTML = `<div class="status-result"><strong>${statusText}</strong>Submitted ${escapeHtml(application.createdAt)}.${detailedMessage}</div>`;
+    });
+    setupMemberPhotoUploads();
+    restoreDeletedMedia();
+    renderAccount();
+    loadStoredMedia();
+    showView("account");
+  </script>
+</body>
+</html>
